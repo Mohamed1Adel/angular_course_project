@@ -1,0 +1,133 @@
+<!-- <p>user-register works!</p> -->
+<div class="container">
+
+
+<form [formGroup]="userRegisterForm" class="m-3" (ngSubmit)="submit()">
+  <div class="form-group">
+    <label for="pName">FullName</label>
+    <input type="text" formControlName="fullName" class="form-control" id="fName" name="fname" [class.is-valid]="fullName?.valid" [class.is-invalid]="fullName?.invalid">
+    <div [hidden]="fullName?.valid || fullName?.untouched">
+      <small *ngIf="fullName?.errors?.['required']">
+        Full Name is required
+      </small>
+      <small *ngIf="fullName?.errors?.['pattern']">
+        Full Name must be 3 letter at least
+      </small>
+    </div>
+  </div>
+
+  <!-- <div class="form-group">
+    <label for="uEmail">email</label>
+    <input type="email" formControlName="email" class="form-control" id="uEmail" name="uemail">
+    <div [hidden]="email?.valid || email?.untouched">
+      <small class="alert alert-warning" *ngIf="email?.errors?.['required']">
+        email is required
+      </small>
+      <small class="alert alert-warning" *ngIf="email?.errors?.['EmailNotValid']">
+        Email must be contain @ {{email?.errors?.['EmailNotValid'].value}} dont match
+      </small>
+    </div>
+  </div> -->
+  <div class="form-group">
+    <label for="uEmail">email</label>
+    <input type="email" formControlName="email" class="form-control" id="uEmail" name="uemail">
+    <div [hidden]="email?.valid || email?.untouched">
+      <small class="alert alert-warning" *ngIf="email?.errors?.['required']">
+        email is required
+      </small>
+      <small class="alert alert-warning" *ngIf="email?.errors?.['existEmail']">
+        this,email already exist {{email?.errors?.['existEmail'].value}}
+      </small>
+    </div>
+  </div>
+  <div formArrayName="phoneNo">
+  <div class="form-group" *ngFor="let phoneNo of phoneNumbers.controls ; let i=index">
+    <label for="{{'uPhone - ' + i+1}}">Phone No. #{{i+1}}</label>
+    <input type="text" #phoneRef [formControlName]="i" class="form-control" id="{{'uPhone - ' + i+1}}" name="uphone" required>
+    <button type="button"  class="btn btn-outline-primary" (click)="addPhoneNo($event)" [disabled]="phoneNoRef?.invalid"> + </button>
+  </div>
+  </div>
+
+
+  <div formGroupName="address">
+    <div class="form-group">
+      <label for="uCity">City</label>
+      <input type="text" formControlName="city" class="form-control" id="uCity" name="ucity">
+    </div>
+    <div class="form-group">
+      <label for="uPostalCode">Postal Code</label>
+      <input type="number" formControlName="postalCode" class="form-control" id="uPostalCode" name="upostalcode">
+    </div>
+    <div class="form-group">
+      <label for="uStreet">Street</label>
+      <input type="text" formControlName="street" class="form-control" id="uStreet" name="ustreet">
+    </div>
+  </div>
+
+  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+  <input type="radio" class="btn-check" formControlName="referal" name="referal" id="btnradio1" autocomplete="off" value="SocialMedia" checked (change)="updateReferalValidators()">
+  <label class="btn btn-outline-primary" for="btnradio1">Social Media</label>
+
+  <input type="radio" class="btn-check" formControlName="referal" name="referal" id="btnradio2" autocomplete="off" value="Friends" (change)="updateReferalValidators()">
+  <label class="btn btn-outline-primary" for="btnradio2">Friends</label>
+
+  <input type="radio" class="btn-check" formControlName="referal" name="referal" id="btnradio3" autocomplete="off" value="other" (change)="updateReferalValidators()">
+  <label class="btn btn-outline-primary" for="btnradio3">Other</label>
+</div>
+<div class="form-group" *ngIf="referal?.value=='other'">
+      <label for="uPostalCode">Specify</label>
+      <input type="text" formControlName="referalOther" class="form-control" id="rOther" name="reOther" class="form-control" id="fName" name="fname" [class.is-valid]="userRegisterForm.get('referalOther')?.valid" [class.is-invalid]="userRegisterForm.get('referalOther')?.invalid">
+    </div>
+
+      <div class="form-group">
+      <label for="uPassword">Password</label>
+      <input type="password" formControlName="password" class="form-control" id="uPassword" name="uPassword">
+    </div>
+      <div class="form-group">
+      <label for="uConfirmPassword">Confirm Password</label>
+      <input type="password" formControlName="confirmPassword" class="form-control" id="uConfirmPassword" name="uconfirmpassword">
+        <!-- <div [hidden]="(confirmPassword?.touched && password?.touched) && (confirmPassword?.invalid || userRegisterForm?.errors?.['UnMatchedPassword'])">
+      <small class="alert alert-warning" *ngIf="confirmPassword?.errors?.['required']">
+         confirm password is required
+      </small>
+      <small class="alert alert-warning" *ngIf="userRegisterForm?.errors?.['UnMatchedPassword']">
+        Confirm Password must match at password
+      </small>
+    </div> -->
+        <div [hidden]="confirmPassword?.untouched">
+      <small class="alert alert-warning" *ngIf="confirmPassword?.errors?.['required']">
+         confirm password is required
+      </small>
+      <small class="alert alert-warning" *ngIf="userRegisterForm?.errors?.['UnMatchedPassword']">
+        Confirm Password must match at password
+      </small>
+    </div>
+    </div>
+
+  <button type="submit" [disabled]="userRegisterForm.invalid" class="btn btn-primary">Submit</button>
+</form>
+
+<hr>
+<div class="text-danger">
+  <h3>To be removed [For test]</h3>
+  <div>
+   Form Values : {{userRegisterForm.value | json}}
+  </div>
+  <div>
+   Form Errors : {{userRegisterForm.errors | json}}
+  </div>
+  <div>
+    <!-- {{userRegisterForm.get('fullName')?.errors | json}} -->
+    Full Name Errors{{fullName?.errors | json}}
+  </div>
+  <div>
+    <!-- {{userRegisterForm.get('fullName')?.errors | json}} -->
+   Referal Errors {{userRegisterForm.get('referalOther')?.errors | json}}
+  </div>
+
+  <!-- <div>
+       // In Case Edit profile
+    <button type="button" class="btn btn-outline-primary" (click)="fillForm()">Fill Form</button>
+  </div> -->
+</div>
+</div>

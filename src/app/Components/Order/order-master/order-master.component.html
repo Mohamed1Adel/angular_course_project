@@ -1,0 +1,53 @@
+<p>Create Your Order</p>
+<div class="mb-3">
+  <label for="prdCat" class="form-label">Category</label>
+  <!-- <select #cat name="cat" id="prdCat" class="form-control" (change) = "getSelectedCategpry(cat.value)"> -->
+  <!-- <select name="cat" id="prdCat" class="form-control" [(ngModel)] = "selectedCategoryId">
+    <option *ngFor = "let cat of catList" [value]="cat.id">{{cat.name}}</option>
+  </select> -->
+  <select name="cat" id="prdCat" class="form-control" [(ngModel)] = "selectedCatId" >
+    <option value="0" selected>All</option>
+    <option *ngFor = "let cat of catList" [value]="cat.id">{{cat.name}}</option>
+  </select>
+</div>
+<hr>
+<div >
+  <app-product-list [sentCatId]="selectedCatId" (totalPriceChanged)="onTotalPrice($event)" (masterCount) ="setCount($event)" (buyPrd)="buyItem($event)"></app-product-list>
+</div>
+<hr>
+<div>
+  <!-- <app-buymane></app-buymane> -->
+  <table class="table ">
+  <thead>
+    <tr>
+      <th>serial</th>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Price is USD</th>
+      <th>Count</th>
+      <th>Buy</th>
+    </tr>
+  </thead>
+  <tbody>
+     <tr *ngFor = "let prd of masterItems  ;let i = index">
+      <td>Math.rendom()</td>
+      <td>{{prd?.name}}</td>
+      <td>
+        <img lightBox="red" defaultColor="gray" [src]="prd?.imgURL" alt="">
+      </td>
+      <td>
+      </td>
+      <td>{{prd?.price | currency : "USD " : "code"}}</td>
+      <td>{{prd.price | USDToEGP: 10 | currency:'EGP':'code'}}</td>
+      <td><h3 class="form-control" #itemsMasterCount></h3></td>
+      <td><button type="button" class="btn btn-secondary" (click) = "placeOrder(prd.id)">Buy</button></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<!-- <div class="totalPrice">Total Price Is : {{}}</div> -->
+<!-- <h3>Enter Your Name : </h3>
+<input type="text" class="form-control" #customerName>
+</div>
+<button class="btn" (click) = "completeOrder()">PlaceOrder</button> -->
+<!-- <h3>Order total Price : {{receivedOrderTotalPrice}}</h3> -->

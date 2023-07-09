@@ -1,0 +1,40 @@
+<p>buymane works!</p>
+<hr>
+<table class="table ">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Av. Quantity</th>
+      <th>Price is USD</th>
+      <th>Price is EGP</th>
+      <th>Count</th>
+      <th>Buy</th>
+    </tr>
+  </thead>
+  <tbody>
+     <tr *ngFor = "let prd of Items  ;let i = index">
+      <td>{{i+1}}</td>
+      <td>{{prd?.name}}</td>
+      <td>
+        <img lightBox="red" defaultColor="gray" [src]="prd?.imgURL" alt="">
+      </td>
+      <td>
+      <ng-container [ngSwitch] = "prd.quantity">
+        <div *ngSwitchCase = "0">Out Of Stock</div>
+        <div *ngSwitchCase = "1">Last Item</div>
+        <div *ngSwitchCase = "2">Last 2 Items</div>
+        <div *ngSwitchDefault>{{prd.quantity}}</div>
+      </ng-container >
+      </td>
+      <td>{{prd?.price | currency : "USD " : "code"}}</td>
+      <td>{{prd.price | USDToEGP: 10 | currency:'EGP':'code'}}</td>
+      <!-- Template Variable #itemsCount -->
+      <td><input type="number" class="form-control" #itemsCount></td>
+      <!-- <td><button type="button" class="btn btn-secondary" (click) = "buy(prd.price , itemsCount.value, i)">Buy</button></td> -->
+      </tr>
+  </tbody>
+</table>
+<hr>
+

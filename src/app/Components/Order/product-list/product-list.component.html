@@ -1,0 +1,131 @@
+<!-- <p>product-list works!</p> -->
+
+<!--
+<div class="mb-3">
+  <label for="prdCat" class="form-label">Category</label>
+  <select #cat name="cat" id="prdCat" class="form-control" (change) = "getSelectedCategpry(cat.value)">
+  <select name="cat" id="prdCat" class="form-control" [(ngModel)] = "selectedCategoryId">
+    <option *ngFor = "let cat of catList" [value]="cat.id">{{cat.name}}</option>
+  </select>
+  <select name="cat" id="prdCat" class="form-control" [(ngModel)] = "selectedCategoryId" (change) = "filterProdouctsBuCatId()">
+    <option *ngFor = "let cat of catList" [value]="cat.id">{{cat.name}}</option>
+  </select>
+</div> -->
+<!-- <div class="text-secondry">
+  [To Be Removed] For Test:
+  {{selectedCategoryId}}
+  <button class="btn btn-primary btn-small" (click) = "change()">change Selected</button>
+  <br>
+  Order's Date : {{orderDate | date:'longDate'}}
+</div>
+<p [class.bg-danger] = 'isSpecial'>Mohamed Adel</p> -->
+
+<a class="btn btn-primary" [routerLink]="['/product/Add']" role="button">New Product</a>
+<hr>
+
+
+
+
+
+<table class="table ">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Av. Quantity</th>
+      <th>Price is USD</th>
+      <th>Price is EGP</th>
+      <th>Count</th>
+      <th>Details</th>
+      <th>Add To Cart</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- <tr *ngFor = "let prd of prdList" [class.d-none] = "prd.quantity==0"> -->
+      <!-- [style.background-color] = "(prd.quantity==0)?'yellow' : 'lightgray'" -->
+
+
+
+      <!-- trackBy Used To Specify iterable Objects identity,
+      and so enhance the performence of ngFor in case og changes to the collection,
+      and update the changed object, without re-build the dom  -->
+    <!-- <tr *ngFor = "let prd of prdList ;let i = index"
+    trackBy : trackByFunc [class.d-none] = "selectedCategoryId != prd.categoryID" > -->
+    <!-- <tr *ngFor = "let prd of prdList ;let i = index"
+     [hidden] = "prd.quantity == 0" > -->
+
+
+
+     <!--
+      - ngIf (Stractural directives in general) change in dom ,
+        while class Bindingor [hidden] just change dom element to be hide
+      -USe ngIf, if collection isn't changed requerly in the runtime,
+        and use dinding, of the collection is regudly changed.
+
+      - We can't use 2 structuer deirictves on the same HTML element,
+        but we can use <ng-container> chat will reflect on the actual dom
+
+
+
+      - ng-template vs ng-container vs ng-content
+      https://www.freecodecamp.org/news/everything-you-need-to-know-about-ng-template-ng-content-ng-container-and-ngtemplateoutlet-4b7b51223691/
+      -->
+     <!-- <ng-container *ngFor = "let prd of prdList ;let i = index">
+      <tr *ngIf="prd.quantity!=0"> -->
+
+
+     <!-- <tr *ngFor = "let prd of prdList ;let i = index" [class.bg-danger] = "prd.quantity==0"> -->
+     <tr *ngFor = "let prd of prdListOfCat  ;let i = index" [ngClass] = "{'bg-warning':prd.quantity==0, 'text-danger' : prd.quantity==0}">
+     <!-- <tr *ngFor = "let prd of prdList ;let i = index" [ngStyle] = "{'background-color' : prd.quantity==0 ? '' : ''}">  defalut color here is not working -->
+      <td>{{i+1}}</td>
+      <!-- <td>{{prd?.id}}</td> -->
+      <td>{{prd?.name}}</td>
+      <td>
+        <!-- <img lightBox highlightetColor="red" [src]="prd?.imgURL" alt=""> -->
+        <!-- <img lightBox="red" [src]="prd?.imgURL" alt=""> -->
+        <img lightBox="red" defaultColor="gray" [src]="prd?.imgURL" alt="">
+      </td>
+      <td>
+        <!-- <div *ngIf="prd.quantity!=0; else outOfStock">
+        {{prd?.quantity}}
+        </div>
+        <ng-template #outOfStock>Out Of Stock</ng-template>
+      -->
+
+
+      <ng-container [ngSwitch] = "prd.quantity">
+        <div *ngSwitchCase = "0">Out Of Stock</div>
+        <div *ngSwitchCase = "1">Last Item</div>
+        <div *ngSwitchCase = "2">Last 2 Items</div>
+        <div *ngSwitchDefault>{{prd.quantity}}</div>
+      </ng-container >
+
+        <!-- <div *ngIf="prd.quantity==0">
+        OUt Of Stock
+        </div> -->
+      </td>
+      <!-- <td>{{prd?.price | currency : "EUR" : "symbol"}}</td> -->
+      <td>{{prd?.price | currency : "USD " : "code"}}</td>
+      <td>{{prd.price | USDToEGP: 10 | currency:'EGP':'code'}}</td>
+      <!-- Template Variable #itemsCount -->
+      <td><input type="number" class="form-control" #itemsPrdCount ></td>
+      <!-- <td><button type="button" class="btn btn-secondary" (click)="openPrdDetails(prd.id)">Details</button></td> -->
+      <td><a class="btn btn-primary" [routerLink]="['/Products',prd.id]" role="button">Details</a></td>
+      <td><button type="button" class="btn btn-secondary" (click) = "buy(prd.price , itemsPrdCount.value, i)">Add To Cart</button></td>
+      </tr>
+
+
+    <!-- <tr *ngFor = "let prd of prdList ; index as i [class.d-none] = "selectedCategoryId != prd.categoryID" > -->
+
+      <!-- safe navigation operator ? -->
+
+
+    <!-- </tr> -->
+  </tbody>
+</table>
+<hr>
+
+<!-- <h3 class="text-danger">
+  [To be Removed ] For test <br>
+  Order Total price : {{orderTotalPrice | currency : "USD " : "code"}}</h3> -->

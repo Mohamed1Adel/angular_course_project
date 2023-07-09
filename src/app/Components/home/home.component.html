@@ -1,0 +1,26 @@
+
+
+<!-- {{storeInfo = new HomeComponent("ITI Store", 'https://picsum.photos/350/200',['Cairo' , 'Alex' , 'Qena'])}} -->
+<!-- Interpolition -->
+<!-- <img src={{storeInfo.imgUrl}} alt=""> -->
+
+<!-- property Binding -->
+<img *ngIf="isImageShown" [src]="storeInfo.imgUrl" alt="" class="img-fluid m-1">
+<button type="button" class="btn btn-primary" (click) = "toggleImage()">toggle image</button>
+<h1>{{storeInfo.name}}</h1>
+
+<h1>Our Branches</h1>
+
+<!-- Stracture Dirictive-->
+<ul>
+  <li *ngFor = "let item of storeInfo.branches"> {{ item }}</li>
+</ul>
+
+
+<input #customInput>
+<p>{{customInput.value}}</p>
+
+<input type="text" [(ngModel)]="newName">
+<p>{{newName}}</p>
+
+

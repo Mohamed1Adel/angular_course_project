@@ -1,0 +1,19 @@
+<!-- <p>product-details works!</p> -->
+<!-- {{prd | json}} -->
+
+<div class="card m-2" style="width:30%;">
+  <img [src]="prd?.imgURL" alt="..." class="card-img-top">
+  <div class="card-body">
+    <h5 class="card-title">{{prd?.name}}</h5>
+    <div class="card-text">
+      <div >price : {{prd?.price}}</div>
+      <div >quentity : {{prd?.quantity}}</div>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+  <button type="button"  [disabled]="currPrdID==prdIDsList[0]" class="btn btn-danger" (click)="prevPrd()">Previous</button>
+  <button type="button" class="btn btn-warning" (click)="goBack()">Back</button>
+  <button type="button" [disabled]="currPrdID==prdIDsList[prdIDsList.length - 1]" class="btn btn-success" (click)="nextPrd()">Next</button>
+</div>
+    <!-- <button class="btn btn-primary" (click)="goBack()">Back</button> -->
+  </div>
+</div>
