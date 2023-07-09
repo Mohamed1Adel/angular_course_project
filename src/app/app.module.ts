@@ -22,6 +22,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { AddProductComponent } from './Components/add-product/add-product.component';
 import { UserRegisterComponent } from './Components/user-register/user-register.component';
 import { PapaPipe } from './Pipes/papa.pipe';
+import {HashLocationStrategy , LocationStrategy} from '@angular/common'
 
 // import { AppRoutingModule } from './Services/app-routing.module';
 // import { BuymaneComponent } from './components/buymane/buymane.component';
@@ -55,6 +56,7 @@ import { PapaPipe } from './Pipes/papa.pipe';
   ],
   providers: [
     // StaticProductsService
+    {provide:LocationStrategy , useClass:HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })
